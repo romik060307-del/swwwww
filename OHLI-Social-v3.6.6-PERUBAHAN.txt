@@ -1,0 +1,16 @@
+OHLI SOCIAL v3.6.6 — PERBAIKAN REGRESI LIVE HOST & CHAT
+
+Perubahan utama:
+1. Memperbaiki tile kamera Host: avatar inisial tidak lagi menutupi video lokal setelah getUserMedia berhasil. Avatar hanya tampil saat kamera dimatikan/gagal.
+2. Tombol kamera Host kini menyinkronkan status avatar dengan track kamera.
+3. Ganti kamera mempertahankan tampilan video lokal.
+4. Menambahkan scrollChatToLatest(peer) yang memaksa scroll ke bawah setelah layout selesai, dengan beberapa frame/tahap penyesuaian untuk browser mobile.
+5. Saat membuka chat teman, percakapan langsung diarahkan ke pesan terbaru.
+6. Setelah kirim teks, aplikasi menunggu refresh pesan yang sedang berjalan selesai, merender ulang percakapan target, lalu mengarahkan ke pesan terbaru.
+7. Android versionCode 35, versionName 3.6.6; health endpoint melaporkan 3.6.6; workflow GitHub Actions memprioritaskan ZIP v3.6.6.
+
+Batas pengujian:
+- JavaScript inline dan file ohli-social.js diperiksa dengan node --check.
+- Pemeriksaan statis source dijalankan.
+- Belum ada uji kamera fisik Safari/iOS atau Android dan belum ada benchmark server produksi.
+- Perbaikan ini tidak mengubah protokol signaling WebRTC, database, autentikasi, atau data pengguna.

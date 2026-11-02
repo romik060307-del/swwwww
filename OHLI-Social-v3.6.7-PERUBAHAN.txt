@@ -1,0 +1,29 @@
+OHLI SOCIAL v3.6.7 — PERUBAHAN
+
+1. Navigasi mobile lebih sederhana:
+   - Pintasan Story/Status disembunyikan dari bottom navigation pada layar HP.
+   - Tab Chat tetap tersedia dan mendapat ruang sentuh lebih lebar.
+   - Tab Status tetap tersedia pada tampilan desktop/layar lebar melalui navigasi lama.
+   - Tujuannya mencegah ikon terlalu rapat dan salah tekan.
+
+2. Pengurangan beban polling:
+   - Siklus scheduler berubah dari 2,8 detik menjadi 4 detik.
+   - Saat Chat terbuka, percakapan aktif tetap diperiksa.
+   - Sinkronisasi pesan latar dijarangkan dari 15 detik menjadi 30 detik.
+   - Refresh panggilan hanya berjalan saat halaman Panggilan atau panggilan aktif.
+   - Refresh daftar pengguna/kontak hanya berjalan pada halaman yang memerlukannya.
+   - Story hanya diperbarui saat halaman Status terbuka.
+   - Pemeriksaan undangan LIVE dijarangkan menjadi 15 detik.
+
+3. Versi Android dinaikkan ke versionCode 36 / versionName 3.6.7.
+4. Endpoint health melaporkan versi 3.6.7.
+5. Workflow GitHub Actions memprioritaskan arsip v3.6.7.
+
+Validasi:
+- node --check untuk ohli-social.js.
+- tools/source-verify.mjs berhasil.
+- Smoke test dua akun memerlukan kredensial dua akun uji dan tidak dijalankan di sini.
+- Tidak ada benchmark server produksi/perangkat nyata pada perubahan ini.
+
+Catatan performa:
+Perubahan ini mengurangi frekuensi request latar yang tidak diperlukan, tetapi bukan pengganti audit backend/DB. Server masih memakai penyimpanan JSON dan lock yang ada pada versi dasar; performa aktual perlu diukur pada host yang menjalankan OHLI.

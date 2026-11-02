@@ -1,0 +1,48 @@
+OHLI SOCIAL v3.6.5 — CATATAN PERUBAHAN
+====================================
+
+1. CHAT: MEDIA, HAPUS, DAN POSISI PESAN
+- Menu aksi pesan menambahkan Unduh media untuk foto, voice note, video, dan file yang didukung.
+- Pengguna dapat memilih Hapus dari chat saya. Aksi ini hanya menyembunyikan pesan pada akun yang sedang digunakan.
+- Pengirim dapat memilih Hapus untuk semua. Server memeriksa kepemilikan pesan dan membersihkan berkas media jika tidak lagi direferensikan oleh pesan/konten lain.
+- Media sekali lihat sengaja tidak dapat diunduh melalui menu ini.
+- Setelah mengirim pesan, chat diarahkan ke pesan paling baru. Saat pengguna sedang membaca riwayat lama, pembaruan pesan masuk tidak memaksa scroll turun.
+- Polling percakapan aktif meminta riwayat peer yang sedang terbuka. Refresh paralel dicegah; sinkronisasi penuh dilakukan setiap 30 detik saat chat aktif, dan 15 detik saat aplikasi tidak sedang membuka percakapan.
+
+2. OHLI LIVE MULTI-PESERTA
+- Host dapat membuka panel Undang Teman yang membaca daftar teman OHLI.
+- Undangan diterima/ditolak oleh penerima; undangan yang diterima menjadi permintaan tampil yang tetap membutuhkan persetujuan Host.
+- Penonton dapat mengirim Minta bergabung. Host dapat menerima atau menolak permintaan.
+- Setelah disetujui, peserta harus menekan kontrol Kamera & mikrofon dan memberikan izin browser sendiri; kamera/mikrofon tidak menyala otomatis.
+- Stage memakai grid responsif hingga empat peserta total (Host + tiga peserta).
+- Tile menampilkan nama, avatar bila kamera mati, dan indikator Mic mati.
+- Peserta dapat keluar dari panggung dan kembali menjadi penonton tanpa mengakhiri LIVE.
+- LIVE privat dapat mengakses undangan yang diterima. Heartbeat Host memperbarui status peserta Host agar tidak dianggap offline.
+- Polling ruang yang sebelumnya memakai nama fungsi yang tidak tersedia diganti dengan pollRkmLiveRoom agar sinkronisasi penonton/peserta berjalan melalui jalur yang benar.
+- Permintaan bergabung yang ditolak memiliki jeda pengiriman ulang 30 detik; jumlah permintaan per ruang juga dibatasi.
+
+3. RESPONS SERVER
+- Worker HTTP berubah menjadi pool 4 thread inti / maksimum 8 thread, antrean 48 request dengan CallerRunsPolicy.
+- Polling latar Chat, panggilan, kontak, user, status, dan undangan diberi interval berbeda. Polling chat aktif lebih sering, tetapi hanya mengambil percakapan yang terbuka di sebagian besar siklus.
+- Penulisan sentuhan sesi dibatasi agar tidak menulis file terlalu sering.
+
+4. BATASAN DAN HAL YANG BELUM DIKERJAKAN
+- LIVE masih WebRTC P2P mesh, bukan SFU. P2P membutuhkan koneksi langsung antar perangkat dan mungkin gagal pada NAT/jaringan tertentu tanpa TURN. Penggunaan lebih luas membutuhkan layanan TURN/SFU.
+- Kapasitas implementasi awal: maksimal empat orang di panggung termasuk Host dan enam penonton. Ini sengaja dibatasi agar topologi P2P tidak mengklaim kapasitas tanpa batas.
+- OHLI Random LIVE Match belum diimplementasikan.
+- Backend tetap menyimpan data utama dalam file JSON dan menggunakan lock global. Optimasi polling dan worker adalah perbaikan awal; migrasi database/cache/object storage dan audit metrik produksi belum dilakukan.
+- Tidak ada benchmark waktu respons yang diklaim. Kinerja harus diukur pada server host dan jaringan nyata.
+- APK belum dibangun dan belum diuji melalui dua akun/perangkat pada lingkungan pengerjaan ini.
+
+5. FILE UTAMA YANG DIUBAH
+- app/src/main/assets/index.html
+- app/src/main/java/com/rk/server/ServerService.java
+- app/build.gradle
+- .github/workflows/build-apk.yml
+- README.md
+- docs/FEATURE-MATRIX.md
+- tools/source-verify.mjs
+
+6. PEMERIKSAAN
+- node tools/source-verify.mjs: lulus 125 pemeriksaan statis pada source yang dikemas.
+- Pemeriksaan ini bukan kompilasi Android, bukan pengujian API runtime, dan bukan uji kualitas koneksi WebRTC.
